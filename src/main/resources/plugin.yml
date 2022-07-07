@@ -1,0 +1,10 @@
+name: UHC
+version: '${project.version}'
+main: com.uhcchampions.uhc.Main
+api-version: 1.8.8
+description: gg
+commands:
+  uhc:
+  pvp:
+  pvpe:
+
