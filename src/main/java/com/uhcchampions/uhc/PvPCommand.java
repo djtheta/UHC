@@ -18,11 +18,7 @@ public class PvPCommand implements CommandExecutor, Listener {
         if(sender instanceof Player) {
             Player player = (Player) sender;
 
-            player.sendMessage(ChatColor.RED + "PVP DISABLED!");
-
-
-
-
+                player.sendMessage(ChatColor.RED + "PVP DISABLED!");
 
 
         }
