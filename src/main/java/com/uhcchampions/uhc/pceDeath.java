@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,6 +36,16 @@ public class pceDeath implements Listener {
         skull.update();
         for(Player players : Bukkit.getOnlinePlayers()) {
             players.playSound(players.getLocation(), Sound.AMBIENCE_THUNDER, 10, 10);
+        }
+
+        Entity victim = e.getEntity();
+        Entity killer = e.getEntity().getKiller();
+
+        int kills = e.getEntity().getKiller().getStatistic(Statistic.PLAYER_KILLS);
+
+
+        if(e.getEntity().getKiller() != null) {
+            e.setDeathMessage(ChatColor.RED + victim.getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + "[" + ChatColor.WHITE + kills++ + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
         }
 
     }

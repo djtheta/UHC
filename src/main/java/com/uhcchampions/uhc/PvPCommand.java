@@ -18,8 +18,13 @@ public class PvPCommand implements CommandExecutor, Listener {
         if(sender instanceof Player) {
             Player player = (Player) sender;
 
-                player.sendMessage(ChatColor.RED + "PVP DISABLED!");
+            if(player.hasPermission("pvp.use")) {
 
+                player.sendMessage(ChatColor.RED + "PVP DISABLED!");
+                player.getLocation().getWorld().setPVP(false);
+            } else {
+            player.sendMessage(ChatColor.RED + "No permission!");
+        }
 
         }
 
@@ -28,12 +33,4 @@ public class PvPCommand implements CommandExecutor, Listener {
         return false;
     }
 
-    @EventHandler
-    public void onPvP(EntityDamageByEntityEvent e) {
-            if(e.getDamager() instanceof Player) {
-                if (e.getEntity() instanceof Player) {
-                    e.setCancelled(true);
-                }
-            }
-        }
     }
