@@ -45,7 +45,7 @@ public class pceDeath implements Listener {
 
 
         if(e.getEntity().getKiller() != null) {
-            e.setDeathMessage(ChatColor.RED + victim.getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + "[" + ChatColor.WHITE + kills++ + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
+                e.setDeathMessage(ChatColor.RED + victim.getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + "[" + ChatColor.WHITE + kills++ + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
         }
 
     }

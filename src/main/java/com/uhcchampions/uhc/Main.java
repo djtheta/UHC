@@ -25,22 +25,29 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public final class Main extends JavaPlugin implements CommandExecutor, Listener {
 
     private HashMap<UUID, Integer> kills = new HashMap<>();
+
+    public static ArrayList<Player> playerlist = new
+            ArrayList<Player>();
+
+
 
 
     @Deprecated
     @Override
     public void onEnable() {
 
+        Bukkit.getPluginManager().registerEvents(new BowStuff(), this);
+
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
+        ArrayList<String> lore = new ArrayList<String>();
+        lore.add(ChatColor.RED + "Seperate me!");
+        meta.setLore(lore);
         meta.setDisplayName(ChatColor.GOLD + "Golden Head");
         is.setItemMeta(meta);
 
@@ -66,7 +73,11 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         getCommand("pvpe").setExecutor(new PvPCommand2());
         Bukkit.getPluginManager().registerEvents(new pceDeath(), this);
         Bukkit.getPluginManager().registerEvents(this, this);
-    }
+
+
+
+
+        }
 
     @Deprecated
     @Override
@@ -76,7 +87,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
             if (player.hasPermission("uhc.use")) {
                 //teleports players
-                player.performCommand("spreadplayers 0 0 750 1500 true @a");
+                player.performCommand("spreadplayers 0 0 750 900 false @a");
                 player.performCommand("worldborder center 0 0");
                 player.performCommand("worldborder set 2000");
                 player.performCommand("gamerule naturalRegeneration false");
@@ -137,6 +148,12 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     }
                 }, 300);
 
+                for(Player players : Bukkit.getOnlinePlayers()) {
+                    if (Bukkit.getOnlinePlayers().size() == 1) {
+                        players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
+                    }
+                }
+
 
             } else {
                 player.sendMessage(ChatColor.RED + "No Permission!");
@@ -149,24 +166,33 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     public void onEat(PlayerItemConsumeEvent e) {
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
+        ArrayList<String> lore = new ArrayList<String>();
+        lore.add(ChatColor.RED + "Seperate me!");
+        meta.setLore(lore);
         meta.setDisplayName(ChatColor.GOLD + "Golden Head");
         is.setItemMeta(meta);
-        if(e.getItem().equals(is)) {
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
-        }
+            if (e.getItem().equals(is)) {
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
+            }
     }
 
 
+    @Deprecated
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
+        player.setStatistic(Statistic.PLAYER_KILLS, 1);
+
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective health = board.registerNewObjective("Health", Criterias.HEALTH);
+        health.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        health.setDisplayName(ChatColor.RED + "❤");
 
         Objective obj = board.registerNewObjective("KingdomsHQ", "UHC");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.GOLD + ChatColor.BOLD.toString() + "UHC");
+        obj.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC" + " S1");
 
         Score space = obj.getScore(ChatColor.GRAY + "§m----------------------");
         space.setScore(5);
@@ -178,6 +204,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         int playersremaining = Bukkit.getOnlinePlayers().size();
         Remaining.setSuffix(ChatColor.AQUA.toString() + playersremaining + "/" + playersonline);
         obj.getScore(ChatColor.BOLD.toString()).setScore(4);
+
 
         Team Kills = board.registerNewTeam("kills");
         Kills.addEntry(ChatColor.RED.toString());
@@ -219,7 +246,16 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         int playersremaining = Bukkit.getOnlinePlayers().size();
         playersremaining--;
 
-        player.getScoreboard().getTeam("remaining").setSuffix(ChatColor.AQUA.toString() + playersremaining);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            @Override
+            public void run() {
+                int playersremaining = Bukkit.getOnlinePlayers().size();
+                playersremaining--;
+                player.getScoreboard().getTeam("remaining").setSuffix(ChatColor.AQUA.toString() + playersremaining);
+            }
+        }, 20, 20);
+
+        Bukkit.broadcastMessage(ChatColor.RED.toString() + playersremaining + " players remain.");
 
 
 
@@ -243,4 +279,5 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
     }
+
 }
