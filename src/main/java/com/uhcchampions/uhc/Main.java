@@ -31,8 +31,6 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
     private HashMap<UUID, Integer> kills = new HashMap<>();
 
-    public static ArrayList<Player> playerlist = new
-            ArrayList<Player>();
 
 
 
@@ -149,6 +147,10 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 }, 300);
 
                 for(Player players : Bukkit.getOnlinePlayers()) {
+                    if(players.isDead()) {
+                        players.setBanned(true);
+                        players.kickPlayer(ChatColor.GOLD + "Thank you for playing!" + "\nCome back next Season!");
+                    }
                     if (Bukkit.getOnlinePlayers().size() == 1) {
                         players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
                     }
