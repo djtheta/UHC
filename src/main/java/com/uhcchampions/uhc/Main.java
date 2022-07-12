@@ -39,14 +39,18 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     @Override
     public void onEnable() {
 
+        getCommand("vanish").setExecutor(new VanishCommand());
+
         Bukkit.getPluginManager().registerEvents(new BowStuff(), this);
+        getCommand("bug").setExecutor(new BugCommand());
+        getCommand("heal").setExecutor(new HealCommand());
 
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
         ArrayList<String> lore = new ArrayList<String>();
         lore.add(ChatColor.RED + "Seperate me!");
         meta.setLore(lore);
-        meta.setDisplayName(ChatColor.GOLD + "Golden Head");
+        meta.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Golden Head");
         is.setItemMeta(meta);
 
         ShapedRecipe recipe = new ShapedRecipe(is);
@@ -105,7 +109,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     public void run() {
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                             players.sendTitle(ChatColor.GREEN + "BEGIN!", ChatColor.YELLOW + "Good luck & have fun!");
-                            Bukkit.broadcastMessage(ChatColor.GRAY + "\n§m-------------------------------------------------------------- §r" + ChatColor.GOLD + ChatColor.BOLD + "                            Season 1 of KingdomsHQ UHC has begun!     " + ChatColor.AQUA + "\n                                * CutClean enabled!" + ChatColor.AQUA + "\n                                * Mumble enabled!" + ChatColor.AQUA + "\n                                * Random teams set!" + ChatColor.AQUA + "\n                                * Ore spawns set!" + ChatColor.GRAY + "\n§m--------------------------------------------------------------   §r");
+                            players.sendMessage(ChatColor.GRAY + "\n§m-------------------------------------------------------------- §r" + ChatColor.GOLD + ChatColor.BOLD + "                            Season 1 of KingdomsHQ UHC has begun!     " + ChatColor.AQUA + "\n                                * CutClean enabled!" + ChatColor.AQUA + "\n                                * Mumble enabled!" + ChatColor.AQUA + "\n                                * Random teams set!" + ChatColor.AQUA + "\n                                * Ore spawns set!" + ChatColor.GRAY + "\n§m--------------------------------------------------------------   §r");
                         }
                     }
                 }, 100); //10 secs after start
@@ -116,7 +120,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                         player.performCommand("worldborder set 150 3600"); //1 hour to shrink to 150
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 
-                            players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink!", ChatColor.RED + "\nBorder: 150x150");
+                            players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink! Head towards 0 0.", ChatColor.RED + "\nBorder: 150x150");
 
                         }
                     }
@@ -138,23 +142,28 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     public void run() {
                         player.performCommand("pvp");
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-
                             players.sendTitle(ChatColor.DARK_GREEN + "Grace Period!", ChatColor.GRAY + "PVP Disabled for 20 minutes!");
-                            Bukkit.broadcastMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
+                            players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
                             players.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 20));
                         }
                     }
                 }, 300);
 
                 for(Player players : Bukkit.getOnlinePlayers()) {
-                    if(players.isDead()) {
-                        players.setBanned(true);
-                        players.kickPlayer(ChatColor.GOLD + "Thank you for playing!" + "\nCome back next Season!");
-                    }
                     if (Bukkit.getOnlinePlayers().size() == 1) {
                         players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
                     }
                 }
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        player.performCommand("heal @a");
+                        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.LIGHT_PURPLE + "Final Heal!", ChatColor.RED + "All players have been healed. Don't die!");
+                        }
+                    }
+                }, 6000);
 
 
             } else {
@@ -171,7 +180,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         ArrayList<String> lore = new ArrayList<String>();
         lore.add(ChatColor.RED + "Seperate me!");
         meta.setLore(lore);
-        meta.setDisplayName(ChatColor.GOLD + "Golden Head");
+        meta.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Golden Head");
         is.setItemMeta(meta);
             if (e.getItem().equals(is)) {
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
@@ -199,13 +208,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         Score space = obj.getScore(ChatColor.GRAY + "§m----------------------");
         space.setScore(5);
 
-        Team Remaining = board.registerNewTeam("remaining");
-        Remaining.addEntry(ChatColor.BOLD.toString());
-        Remaining.setPrefix(ChatColor.GOLD + "Remaining: ");
-        int playersonline = Bukkit.getOnlinePlayers().size();
-        int playersremaining = Bukkit.getOnlinePlayers().size();
-        Remaining.setSuffix(ChatColor.AQUA.toString() + playersremaining + "/" + playersonline);
-        obj.getScore(ChatColor.BOLD.toString()).setScore(4);
+        Score Host = obj.getScore(ChatColor.GOLD + "Host: " + ChatColor.AQUA + "SebHobbit");
+        Host.setScore(4);
 
 
         Team Kills = board.registerNewTeam("kills");
@@ -241,23 +245,20 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
     }
 
+    @Deprecated
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        Player player = e.getEntity().getPlayer();
+
 
         int playersremaining = Bukkit.getOnlinePlayers().size();
         playersremaining--;
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-            @Override
-            public void run() {
-                int playersremaining = Bukkit.getOnlinePlayers().size();
-                playersremaining--;
-                player.getScoreboard().getTeam("remaining").setSuffix(ChatColor.AQUA.toString() + playersremaining);
-            }
-        }, 20, 20);
-
         Bukkit.broadcastMessage(ChatColor.RED.toString() + playersremaining + " players remain.");
+
+        e.getEntity().getPlayer().setBanned(true);
+        e.getEntity().getPlayer().kickPlayer(ChatColor.GOLD + "Thank you for playing!" + "\nCome back next Season!");
+
+
 
 
 

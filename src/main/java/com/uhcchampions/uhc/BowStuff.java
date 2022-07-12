@@ -28,7 +28,7 @@ public class BowStuff implements Listener {
                         if (e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) {
                             if (!(arrow.getShooter() instanceof Player)) return;
 
-                            ((Player) arrow.getShooter()).playSound(((Player) arrow.getShooter()).getLocation(), Sound.NOTE_PLING, 1, 2);
+                            ((Player) arrow.getShooter()).playSound(((Player) arrow.getShooter()).getLocation(), Sound.SUCCESSFUL_HIT, 10, 2);
                             shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + health + " ❤");
                         }
                     }
