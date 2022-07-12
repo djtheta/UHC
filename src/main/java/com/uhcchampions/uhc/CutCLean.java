@@ -3,6 +3,7 @@ package com.uhcchampions.uhc;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -23,6 +24,7 @@ public class CutCLean implements Listener {
             e.getBlock().setType(Material.AIR);
             world.dropItem(location, new ItemStack(Material.IRON_INGOT));
             e.getPlayer().giveExp(4);
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
         if (e.getBlock().getType() == Material.GOLD_ORE) {
             Location location = e.getBlock().getLocation();
@@ -30,6 +32,7 @@ public class CutCLean implements Listener {
             e.getBlock().setType(Material.AIR);
             world.dropItem(location, new ItemStack(Material.GOLD_INGOT));
             e.getPlayer().giveExp(5);
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
     }
 
