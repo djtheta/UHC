@@ -24,6 +24,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.*;
 
 import java.util.*;
@@ -80,7 +82,6 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
         }
-
     @Deprecated
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -96,23 +97,77 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
 
+                //for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                //  players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 180, 1000000, false, false));
+                // players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 180, 1000000, false, false));
+                //players.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 180, -100, false, false));
+                //players.sendTitle(ChatColor.GOLD + "Teleporting...", ChatColor.AQUA + "Please wait 10 seconds."); //start
+                //}
 
-                for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                    players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 180, 1000000, false, false));
-                    players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 180, 1000000, false, false));
-                    players.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 180, -100, false, false));
-                    players.sendTitle(ChatColor.GOLD + "Teleporting...", ChatColor.AQUA + "Please wait 10 seconds."); //start
-                }
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
                     public void run() {
-                        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                        for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.DARK_RED + "5", ChatColor.GRAY + "Starting in...");
+                            players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.DARK_RED + "5" + ChatColor.GRAY + ".");
+                            players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 180, 1000000, false, false));
+                            players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 180, 1000000, false, false));
+                            players.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 180, -100, false, false));
+                        }
+                    }
+                }, 0);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.RED + "4", ChatColor.GRAY + "Starting in...");
+                            players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.RED + "4" + ChatColor.GRAY + ".");
+                        }
+                    }
+                }, 20);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.GOLD + "3", ChatColor.GRAY + "Starting in...");
+                            players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.GOLD + "3" + ChatColor.GRAY + ".");
+                        }
+                    }
+                }, 40);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.YELLOW + "2", ChatColor.GRAY + "Starting in...");
+                            players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.YELLOW + "2" + ChatColor.GRAY + ".");
+                        }
+                    }
+                }, 60);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                            for (Player players : Bukkit.getOnlinePlayers()) {
+                                players.sendTitle(ChatColor.GREEN + "1", ChatColor.GRAY + "Starting in...");
+                                players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.GREEN + "1" + ChatColor.GRAY + ".");
+                            }
+                    }
+                }, 80);
+
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player players : Bukkit.getOnlinePlayers()) {
                             players.sendTitle(ChatColor.GREEN + "BEGIN!", ChatColor.YELLOW + "Good luck & have fun!");
                             players.sendMessage(ChatColor.GRAY + "\n§m-------------------------------------------------------------- §r" + ChatColor.GOLD + ChatColor.BOLD + "                                                  Season 1 of KingdomsHQ UHC has begun!                       " + ChatColor.AQUA + "\n                                         * CutClean enabled!                " + ChatColor.AQUA + "\n                                         * Mumble enabled!            " + ChatColor.AQUA + "\n                                         * Random teams set!            " + ChatColor.AQUA + "\n                                         * Ore spawns set!            " + ChatColor.GRAY + "\n§m--------------------------------------------------------------   §r");
                         }
                     }
-                }, 100); //10 secs after start
+                }, 100);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -155,7 +210,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     public void run() {
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                             players.setHealth(players.getMaxHealth());
-                            players.sendTitle(ChatColor.LIGHT_PURPLE + "Final Heal!", ChatColor.RED + "All players have been healed. Don't die!");
+                            players.sendTitle(ChatColor.GOLD + "Final Heal!", ChatColor.RED + "All players have been healed. Don't die!");
+                            players.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 300, 0, false, false));
                         }
                     }
                 }, 6000);
