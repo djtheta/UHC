@@ -15,7 +15,7 @@ public class HealCommand implements CommandExecutor {
             if(player.hasPermission("heal.use")) {
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    target.setHealth(20);
+                    target.setHealth(target.getMaxHealth());
                     target.sendMessage(ChatColor.LIGHT_PURPLE + "You have been healed!");
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "You have healed " + ChatColor.RED + target.getName());
 
