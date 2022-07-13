@@ -50,7 +50,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add(ChatColor.RED + "Seperate me!");
+        lore.add(ChatColor.RED + "Separate me!");
         meta.setLore(lore);
         meta.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Golden Head");
         is.setItemMeta(meta);
@@ -77,6 +77,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         getCommand("pvpe").setExecutor(new PvPCommand2());
         Bukkit.getPluginManager().registerEvents(new pceDeath(), this);
         Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(new Chat(), this);
 
 
 
@@ -87,9 +88,12 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-
             if (player.hasPermission("uhc.use")) {
                 //teleports players
+
+                //AUGUST RIGHT HERE BEFORE SPREADPLAYERS
+
+
                 player.performCommand("spreadplayers 0 0 750 900 false @a");
                 player.performCommand("worldborder center 0 0");
                 player.performCommand("worldborder set 2000");
@@ -104,6 +108,14 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 //players.sendTitle(ChatColor.GOLD + "Teleporting...", ChatColor.AQUA + "Please wait 10 seconds."); //start
                 //}
 
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.AQUA + "Teleporting...", ChatColor.YELLOW + "Please wait 10 seconds.");
+                        }
+                    }
+                }, 0);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -116,7 +128,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 180, -100, false, false));
                         }
                     }
-                }, 0);
+                }, 20);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -126,7 +138,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.RED + "4" + ChatColor.GRAY + ".");
                         }
                     }
-                }, 20);
+                }, 40);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -136,7 +148,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.GOLD + "3" + ChatColor.GRAY + ".");
                         }
                     }
-                }, 40);
+                }, 60);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -146,7 +158,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.YELLOW + "2" + ChatColor.GRAY + ".");
                         }
                     }
-                }, 60);
+                }, 80);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -156,7 +168,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                                 players.sendMessage(ChatColor.GRAY + "UHC starts in " + ChatColor.GREEN + "1" + ChatColor.GRAY + ".");
                             }
                     }
-                }, 80);
+                }, 100);
 
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
@@ -167,7 +179,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.sendMessage(ChatColor.GRAY + "\n§m-------------------------------------------------------------- §r" + ChatColor.GOLD + ChatColor.BOLD + "                                                  Season 1 of KingdomsHQ UHC has begun!                       " + ChatColor.AQUA + "\n                                         * CutClean enabled!                " + ChatColor.AQUA + "\n                                         * Mumble enabled!            " + ChatColor.AQUA + "\n                                         * Random teams set!            " + ChatColor.AQUA + "\n                                         * Ore spawns set!            " + ChatColor.GRAY + "\n§m--------------------------------------------------------------   §r");
                         }
                     }
-                }, 100);
+                }, 120);
 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
@@ -229,7 +241,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add(ChatColor.RED + "Seperate me!");
+        lore.add(ChatColor.RED + "Separate me!");
         meta.setLore(lore);
         meta.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Golden Head");
         is.setItemMeta(meta);
@@ -336,7 +348,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
     @Deprecated
     @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
+    public void OnQuit(PlayerQuitEvent e) {
         for(Player players : Bukkit.getOnlinePlayers()) {
             if (Bukkit.getOnlinePlayers().size() == 1) {
                 players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
