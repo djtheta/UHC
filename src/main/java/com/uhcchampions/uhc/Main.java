@@ -6,6 +6,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -93,8 +94,17 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
                 //AUGUST RIGHT HERE BEFORE SPREADPLAYERS
 
+                ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
-                player.performCommand("spreadplayers 0 0 750 900 false @a");
+                for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 2; i++) {
+                    Bukkit.dispatchCommand(console, "scoreboard teams add " + i);
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                }
+                Bukkit.dispatchCommand(console, "scoreboard teams add solo_take_the_L");
+                Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
+
+                player.performCommand("spreadplayers 0 0 750 900 true @a");
                 player.performCommand("worldborder center 0 0");
                 player.performCommand("worldborder set 2000");
                 player.performCommand("gamerule naturalRegeneration false");
