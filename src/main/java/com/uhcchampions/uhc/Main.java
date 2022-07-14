@@ -44,7 +44,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     public void onEnable() {
 
         getCommand("vanish").setExecutor(new VanishCommand());
-
+        getCommand("victory").setExecutor(new Victory());
         Bukkit.getPluginManager().registerEvents(new BowStuff(), this);
         getCommand("heal").setExecutor(new HealCommand());
 
@@ -105,7 +105,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
 
 
-                player.performCommand("spreadplayers 0 0 750 900 false @a");
+                player.performCommand("spreadplayers 0 0 750 900 true @a");
                 player.performCommand("worldborder center 0 0");
                 player.performCommand("worldborder set 2000");
                 player.performCommand("gamerule naturalRegeneration false");
@@ -226,8 +226,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     public void run() {
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                             players.setHealth(players.getMaxHealth());
-                            players.sendTitle(ChatColor.GOLD + "Final Heal!", ChatColor.RED + "All players have been healed. Don't die!");
-                            players.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 300, 0, false, false));
+                            players.sendTitle(ChatColor.GOLD + "Final Heal!", ChatColor.AQUA + "All players have been healed. Don't die!");
+                            players.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 6000, 0, false, false));
                         }
                     }
                 }, 6000);
@@ -348,16 +348,6 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
 
-    }
-
-    @Deprecated
-    @EventHandler
-    public void OnQuit(PlayerQuitEvent e) {
-        for(Player players : Bukkit.getOnlinePlayers()) {
-            if (Bukkit.getOnlinePlayers().size() == 1) {
-                players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
-            }
-        }
     }
 
 }
