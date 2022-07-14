@@ -98,6 +98,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
                 for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 2; i++) {
                     Bukkit.dispatchCommand(console, "scoreboard teams add " + i);
+                    Bukkit.dispatchCommand(console, "scoreboard teams option " + i + " friendlyfire false");
                     Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
                     Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
                 }
