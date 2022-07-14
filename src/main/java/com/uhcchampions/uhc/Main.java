@@ -104,8 +104,18 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 Bukkit.dispatchCommand(console, "scoreboard teams add solo_take_the_L");
                 Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
 
+                ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
-                player.performCommand("spreadplayers 0 0 750 900 false @a");
+                for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 2; i++) {
+                    Bukkit.dispatchCommand(console, "scoreboard teams add " + i);
+                    Bukkit.dispatchCommand(console, "scoreboard teams option " + i + " friendlyfire false");
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                }
+                Bukkit.dispatchCommand(console, "scoreboard teams add solo_take_the_L");
+                Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
+
+                player.performCommand("spreadplayers 0 0 750 900 true @a");
                 player.performCommand("worldborder center 0 0");
                 player.performCommand("worldborder set 2000");
                 player.performCommand("gamerule naturalRegeneration false");
