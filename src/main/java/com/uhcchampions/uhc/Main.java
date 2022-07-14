@@ -6,6 +6,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -92,6 +93,16 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 //teleports players
 
                 //AUGUST RIGHT HERE BEFORE SPREADPLAYERS
+                ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+
+                for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 2; i++) {
+                    Bukkit.dispatchCommand(console, "scoreboard teams add " + i);
+                    Bukkit.dispatchCommand(console, "scoreboard teams option " + i + " friendlyfire false");
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                    Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
+                }
+                Bukkit.dispatchCommand(console, "scoreboard teams add solo_take_the_L");
+                Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
 
 
                 player.performCommand("spreadplayers 0 0 750 900 false @a");
@@ -101,18 +112,11 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
 
-                //for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                //  players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 180, 1000000, false, false));
-                // players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 180, 1000000, false, false));
-                //players.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 180, -100, false, false));
-                //players.sendTitle(ChatColor.GOLD + "Teleporting...", ChatColor.AQUA + "Please wait 10 seconds."); //start
-                //}
-
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
                     public void run() {
                         for(Player players : Bukkit.getOnlinePlayers()) {
-                            players.sendTitle(ChatColor.AQUA + "Teleporting...", ChatColor.YELLOW + "Please wait 10 seconds.");
+                            players.sendTitle(ChatColor.GOLD + "Teleporting...", ChatColor.AQUA + "Please wait 10 seconds.");
                         }
                     }
                 }, 0);
@@ -297,7 +301,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 int border = (int) getServer().getWorld("world").getWorldBorder().getSize();
                 player.getScoreboard().getTeam("border1").setSuffix(ChatColor.AQUA.toString() + border);
             }
-        }, 20, 20);
+        }, 20, 6000);
 
 
         Score space2 = obj.getScore(ChatColor.GRAY + "§m---------------------- §r");

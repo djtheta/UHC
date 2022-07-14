@@ -23,6 +23,8 @@ public class HealCommand implements CommandExecutor {
 
 
                 }
+            } else {
+                player.sendMessage(ChatColor.RED + "No permission!");
             }
 
 

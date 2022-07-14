@@ -42,6 +42,8 @@ public class VanishCommand implements CommandExecutor {
 
 
 
+            } else {
+                player.sendMessage(ChatColor.RED + "No permission!");
             }
 
 
