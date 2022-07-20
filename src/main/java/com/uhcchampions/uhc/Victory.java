@@ -2,6 +2,7 @@ package com.uhcchampions.uhc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +16,9 @@ public class Victory implements CommandExecutor {
             Player player = (Player) sender;
 
             for(Player players : Bukkit.getOnlinePlayers()) {
-                players.sendTitle(ChatColor.GREEN + "VICTORY!", ChatColor.DARK_GREEN + players.getDisplayName() + " has won this UHC!");
+                if (players.getGameMode().equals(GameMode.SURVIVAL)) {
+                    players.sendTitle(ChatColor.GOLD + "VICTORY!", ChatColor.GRAY + "You have won this season's UHC!");
+                }
             }
 
 

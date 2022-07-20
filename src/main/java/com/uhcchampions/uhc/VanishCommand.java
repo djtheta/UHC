@@ -25,6 +25,7 @@ public class VanishCommand implements CommandExecutor {
                 vanished.remove(player.getUniqueId());
                 for(Player target : Bukkit.getOnlinePlayers()) {
                     target.showPlayer(player);
+                    player.setAllowFlight(false);
                 }
                 player.sendMessage(ChatColor.AQUA + "You are no longer " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
 
@@ -32,6 +33,7 @@ public class VanishCommand implements CommandExecutor {
                 vanished.add(player.getUniqueId());
                 for(Player target : Bukkit.getOnlinePlayers()) {
                     target.hidePlayer(player);
+                    player.setAllowFlight(true);
                 }
                 player.sendMessage(ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
 
