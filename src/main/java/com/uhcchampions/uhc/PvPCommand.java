@@ -22,6 +22,8 @@ public class PvPCommand implements CommandExecutor, Listener {
 
                 player.sendMessage(ChatColor.RED + "PVP DISABLED!");
                 player.getLocation().getWorld().setPVP(false);
+
+
             } else {
             player.sendMessage(ChatColor.RED + "No permission!");
         }
