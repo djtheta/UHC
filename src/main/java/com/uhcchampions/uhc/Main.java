@@ -285,7 +285,13 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + "S1", ChatColor.GOLD + "TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA.toString() + Lag.getTPS());
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                int tps = (int) Lag.getTPS();
+                TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
+            }
+        }, 20, 20);
 
         player.setStatistic(Statistic.PLAYER_KILLS, 1);
 
@@ -390,31 +396,14 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
             event.getBlock().setType(Material.AIR);
 //Do some fancy doo-dad algorithm, probably just using Random
             Random rand = new Random();
-            int randomNumber = rand.nextInt(3);
+            int randomNumber = rand.nextInt(10);
             switch(randomNumber){
                 //credit to WarmakerT
                 default:
                     break;
                 case 1:
-                case 2:
                     event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.APPLE, 1));
-                    break;
-            }
-        }
-        if(event.getBlock().getType().equals(Material.GRAVEL) && event.getPlayer().getItemInHand() == null || event.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.GOLD_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.IRON_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.STONE_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.WOOD_SPADE)) {
-            /*Cancel this event. Meaning, don't let the block break.*/
-            event.setCancelled(true);
-//Remove the blocks, or effectively just set it to air.
-            event.getBlock().setType(Material.AIR);
-//Do some fancy doo-dad algorithm, probably just using Random
-            Random rand = new Random();
-            int randomNumber = rand.nextInt(3);
-            switch(randomNumber){
-                default:
-                    break;
-                case 1:
                 case 2:
-                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FLINT, 1));
                     break;
             }
         }

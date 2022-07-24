@@ -20,9 +20,11 @@ public class HealCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + target.getName());
 
                     if (command.getName().equalsIgnoreCase("heal")) {
+                        if (args.length == 0) {
                             player.setHealth(player.getMaxHealth());
                             player.setFoodLevel(20);
                             player.sendMessage(ChatColor.RED + "You have been healed!");
+                        }
                     }
 
 
