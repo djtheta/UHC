@@ -3,6 +3,7 @@ version: '${project.version}'
 main: com.uhcchampions.uhc.Main
 api-version: 1.8.8
 description: gg
+depend: [TitleAPI]
 commands:
   uhc:
   pvp:

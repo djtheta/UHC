@@ -1,5 +1,6 @@
 package com.uhcchampions.uhc;
 
+import com.connorlinfoot.titleapi.TitleAPI;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -48,6 +50,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     @Override
     public void onEnable() {
         other = new BowStuff(this);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
+
 
         getCommand("vanish").setExecutor(new VanishCommand());
         getCommand("victory").setExecutor(new Victory());
@@ -195,7 +199,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                             players.sendTitle(ChatColor.GREEN + "BEGIN!", ChatColor.YELLOW + "Good luck & have fun!");
                             players.sendMessage(ChatColor.GRAY + "\n§m-------------------------------------------------------------- §r" + ChatColor.GOLD + ChatColor.BOLD + "                                                                       Season 1 of KingdomsHQ UHC has begun!                                  " + ChatColor.AQUA + "\n                                         * CutClean enabled!                " + ChatColor.AQUA + "\n                                         * Mumble enabled!            " + ChatColor.AQUA + "\n                                         * Random teams set!            " + ChatColor.AQUA + "\n                                         * Ore spawns set!            " + ChatColor.GRAY + "\n§m--------------------------------------------------------------   §r");
                             players.playSound(players.getLocation(), Sound.SUCCESSFUL_HIT, 10, 10);
-                            player.performCommand("heal @a");
+                            players.setHealth(players.getMaxHealth());
+                            players.setFoodLevel(20);
                         }
                     }
                 }, 300);
@@ -206,7 +211,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                         player.performCommand("worldborder set 150 3600"); //1 hour to shrink to 150
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 
-                            players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink!", ChatColor.RED + "\nHead towards 0 0.");
+                            players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink!", ChatColor.RED + "Head towards 0 0.");
                             players.playSound(players.getLocation(), Sound.NOTE_BASS, 10, 10);
                         }
                     }
@@ -242,6 +247,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     @Override
                     public void run() {
                         for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.setHealth(players.getMaxHealth());
+                            players.setFoodLevel(20);
                             players.sendTitle(ChatColor.GOLD + "Final Heal!", ChatColor.GRAY + "Absorption for 5 minutes.");
                             players.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 6000, 0, false, false));
                             players.playSound(players.getLocation(), Sound.NOTE_PLING, 10, 10);
@@ -277,6 +284,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+
+        TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + "S1", ChatColor.GOLD + "TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA.toString() + Lag.getTPS());
 
         player.setStatistic(Statistic.PLAYER_KILLS, 1);
 
@@ -369,5 +378,45 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
     }
-
+    //credit to WarmakerT -->
+    @EventHandler
+//When player breaks a block:
+    public void onBlockBreak(BlockBreakEvent event){
+//if Block is a leaf Block and Player's held item
+        if(event.getBlock().getType().equals(Material.LEAVES) && event.getPlayer().getItemInHand().getType().equals(Material.SHEARS) || event.getPlayer().getItemInHand() == null) {
+            /*Cancel this event. Meaning, don't let the block break.*/
+            event.setCancelled(true);
+//Remove the blocks, or effectively just set it to air.
+            event.getBlock().setType(Material.AIR);
+//Do some fancy doo-dad algorithm, probably just using Random
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(3);
+            switch(randomNumber){
+                //credit to WarmakerT
+                default:
+                    break;
+                case 1:
+                case 2:
+                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.APPLE, 1));
+                    break;
+            }
+        }
+        if(event.getBlock().getType().equals(Material.GRAVEL) && event.getPlayer().getItemInHand() == null || event.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.GOLD_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.IRON_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.STONE_SPADE) || event.getPlayer().getItemInHand().getType().equals(Material.WOOD_SPADE)) {
+            /*Cancel this event. Meaning, don't let the block break.*/
+            event.setCancelled(true);
+//Remove the blocks, or effectively just set it to air.
+            event.getBlock().setType(Material.AIR);
+//Do some fancy doo-dad algorithm, probably just using Random
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(3);
+            switch(randomNumber){
+                default:
+                    break;
+                case 1:
+                case 2:
+                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FLINT, 1));
+                    break;
+            }
+        }
+    }
 }
