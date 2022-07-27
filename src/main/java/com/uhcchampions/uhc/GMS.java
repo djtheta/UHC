@@ -1,28 +1,23 @@
 package com.uhcchampions.uhc;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HealCommand implements CommandExecutor {
+public class GMS implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
-            if(player.hasPermission("heal.use")) {
-                if (args.length == 1) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    target.setHealth(target.getMaxHealth());
-                    target.setFoodLevel(20);
-                    target.sendMessage(ChatColor.RED + "You have been healed!");
-                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + target.getName());
+
+            if(player.hasPermission("gms.use")) {
+                player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "survival" + ChatColor.GOLD + ".");
+                player.setGameMode(GameMode.SURVIVAL);
 
 
-
-                }
             } else {
                 player.sendMessage(ChatColor.RED + "No permission!");
             }
@@ -31,13 +26,7 @@ public class HealCommand implements CommandExecutor {
 
 
 
-
-
-
-
         }
-
-
 
 
 

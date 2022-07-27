@@ -13,7 +13,7 @@ public class Chat implements Listener {
 
         Player player = e.getPlayer();
         e.getFormat();
-        e.setFormat(player.getDisplayName() + " " + ChatColor.DARK_GRAY + "»" + ChatColor.WHITE + " " + e.getMessage());
+        e.setFormat(player.getDisplayName() + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + e.getMessage());
     }
 
 }

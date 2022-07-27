@@ -22,7 +22,7 @@ public class CutCLean implements Listener {
             Location location = e.getBlock().getLocation();
             World world = location.getWorld();
             e.getBlock().setType(Material.AIR);
-            world.dropItem(location, new ItemStack(Material.IRON_INGOT));
+            world.dropItemNaturally(location, new ItemStack(Material.IRON_INGOT));
             e.getPlayer().giveExp(4);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
@@ -30,7 +30,7 @@ public class CutCLean implements Listener {
             Location location = e.getBlock().getLocation();
             World world = e.getBlock().getWorld();
             e.getBlock().setType(Material.AIR);
-            world.dropItem(location, new ItemStack(Material.GOLD_INGOT));
+            world.dropItemNaturally(location, new ItemStack(Material.GOLD_INGOT));
             e.getPlayer().giveExp(5);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
