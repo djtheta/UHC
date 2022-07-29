@@ -1,4 +1,4 @@
-package com.uhcchampions.uhc;
+package com.uhcchampions.uhc.Commands;
 
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ public class Victory implements CommandExecutor {
                 if (players.getGameMode().equals(GameMode.SURVIVAL)) {
                     players.sendTitle(ChatColor.GOLD + "VICTORY!", ChatColor.GRAY + "You have won this season's UHC!");
                     Firework firework = players.getWorld().spawn(players.getLocation(), Firework.class);
-                    FireworkMeta meta = (FireworkMeta) firework.getFireworkMeta();
+                    FireworkMeta meta = firework.getFireworkMeta();
                     meta.addEffect(FireworkEffect.builder().withColor(Color.ORANGE).withColor(Color.AQUA).with(FireworkEffect.Type.STAR).build());
                     meta.setPower(3);
                     firework.setFireworkMeta(meta);

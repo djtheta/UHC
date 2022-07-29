@@ -1,4 +1,4 @@
-package com.uhcchampions.uhc;
+package com.uhcchampions.uhc.Listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ public class Chat implements Listener {
 
         Player player = e.getPlayer();
         e.getFormat();
-        e.setFormat(player.getDisplayName() + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + e.getMessage());
+        e.setFormat(" " + player.getDisplayName() + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + e.getMessage());
     }
 
 }
