@@ -32,14 +32,12 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.*;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public final class Main extends JavaPlugin implements CommandExecutor, Listener {
 
     //Main class
     public BowStuff other;
-
-
-    private HashMap<UUID, Integer> remaining = new HashMap<>();
     private HashMap<UUID, Integer> kills = new HashMap<>();
 
 
@@ -49,6 +47,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     @Deprecated
     @Override
     public void onEnable() {
+
         other = new BowStuff(this);
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 
@@ -208,7 +207,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                 Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                     @Override
                     public void run() {
-                        player.performCommand("worldborder set 150 3600"); //1 hour to shrink to 150
+                        player.performCommand("worldborder set 100 3600"); //1 hour to shrink to 150
                         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 
                             players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink!", ChatColor.RED + "Head towards 0 0.");
@@ -285,6 +284,11 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
+
+        if(player.getName().equals("SebHobbit")) {
+            player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+        }
+        e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
@@ -326,6 +330,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         Border.setPrefix(ChatColor.GOLD + "Border: ");
         Border.setSuffix(ChatColor.AQUA.toString() + border);
         obj.getScore(ChatColor.GREEN.toString()).setScore(2);
+
 
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
@@ -407,5 +412,11 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                     break;
             }
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        e.setQuitMessage(ChatColor.DARK_GRAY + "(" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
     }
 }
