@@ -1,27 +1,24 @@
-package com.uhcchampions.uhc;
+package com.uhcchampions.uhc.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class VanishCommand implements CommandExecutor, Listener {
 
-    private List<UUID> vanished = new ArrayList<>();
+    private final List<UUID> vanished = new ArrayList<>();
+    ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -39,11 +36,13 @@ public class VanishCommand implements CommandExecutor, Listener {
 
             } else { // they are not vanished
                 vanished.add(player.getUniqueId());
+                Bukkit.dispatchCommand(console, "particle explode " + player.getLocation().getX() + " " + (player.getLocation().getY() + 0.9) + " " + player.getLocation().getZ() + " 0.075 0.225 0.075 0 100");
                 for(Player target : Bukkit.getOnlinePlayers()) {
                     target.hidePlayer(player);
                     player.setAllowFlight(true);
                     player.performCommand("tp @r");
                 }
+                player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f, 1.0f);
                 player.sendMessage(ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
 
             }
