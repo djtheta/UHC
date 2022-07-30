@@ -30,11 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public final class Main extends JavaPlugin implements CommandExecutor, Listener {
 
     //Main class
     public BowStuff other;
+    
     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
     private final HashMap<UUID, Integer> kills = new HashMap<>();
@@ -44,7 +47,6 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     @Deprecated
     @Override
     public void onEnable() {
-
 
         other = new BowStuff(this);
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
@@ -251,6 +253,17 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             int tps = (int) Lag.getTPS();
             TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
+
+        if(player.getName().equals("SebHobbit")) {
+            player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+        }
+        e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                int tps = (int) Lag.getTPS();
+                TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
+            }
         }, 20, 20);
 
         player.setStatistic(Statistic.PLAYER_KILLS, 1);
@@ -366,4 +379,9 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         }
     }
 
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        e.setQuitMessage(ChatColor.DARK_GRAY + "(" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
+    }
 }
