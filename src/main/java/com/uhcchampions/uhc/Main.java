@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,14 +34,14 @@ import java.util.UUID;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public final class Main extends JavaPlugin implements CommandExecutor, Listener {
+public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
     //Main class
     public BowStuff other;
     
     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
-    private final HashMap<UUID, Integer> kills = new HashMap<>();
+    private HashMap<UUID, Integer> kills = new HashMap<>();
 
 
 
@@ -253,68 +254,63 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             int tps = (int) Lag.getTPS();
             TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
+        }, 20, 20);
 
-        if(player.getName().equals("SebHobbit")) {
-            player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+
+            if (player.getName().equals("SebHobbit")) {
+                player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+            }
+
+
+            e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
+
+            player.setStatistic(Statistic.PLAYER_KILLS, 1);
+
+            Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+            Objective health = board.registerNewObjective("Health", Criterias.HEALTH);
+            health.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            health.setDisplayName(ChatColor.RED + "❤");
+
+            Objective obj = board.registerNewObjective("KingdomsHQ", "UHC");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            obj.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD + "UHC" + " S1");
+
+            Score space = obj.getScore(ChatColor.GRAY + "§m----------------------");
+            space.setScore(5);
+
+            Score Host = obj.getScore(ChatColor.GOLD + "Host: " + ChatColor.AQUA + "SebHobbit");
+            Host.setScore(4);
+
+
+            Team Kills = board.registerNewTeam("kills");
+            Kills.addEntry(ChatColor.RED.toString());
+            Kills.setPrefix(ChatColor.GOLD + "Kills: ");
+            Kills.setSuffix(ChatColor.AQUA + "0");
+            obj.getScore(ChatColor.RED.toString()).setScore(3);
+
+            kills.put(player.getUniqueId(), 0);
+
+            int border = (int) getServer().getWorld("world").getWorldBorder().getSize();
+
+            Team Border = board.registerNewTeam("border1");
+            Border.addEntry(ChatColor.GREEN.toString());
+            Border.setPrefix(ChatColor.GOLD + "Border: ");
+            Border.setSuffix(ChatColor.AQUA.toString() + border);
+            obj.getScore(ChatColor.GREEN.toString()).setScore(2);
+
+            Bukkit.getScheduler().runTaskTimer(this, () -> {
+                int border1 = (int) getServer().getWorld("world").getWorldBorder().getSize();
+                for (Player players : Bukkit.getOnlinePlayers()) {
+                    players.getScoreboard().getTeam("border1").setSuffix(ChatColor.AQUA.toString() + border1);
+                }
+            }, 20, 20);
+
+
+            Score space2 = obj.getScore(ChatColor.GRAY + "§m---------------------- §r");
+            space2.setScore(1);
+
+            player.setScoreboard(board);
         }
-        e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                int tps = (int) Lag.getTPS();
-                TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
-            }
-        }, 20, 20);
-
-        player.setStatistic(Statistic.PLAYER_KILLS, 1);
-
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective health = board.registerNewObjective("Health", Criterias.HEALTH);
-        health.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        health.setDisplayName(ChatColor.RED + "❤");
-
-        Objective obj = board.registerNewObjective("KingdomsHQ", "UHC");
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD + "UHC" + " S1");
-
-        Score space = obj.getScore(ChatColor.GRAY + "§m----------------------");
-        space.setScore(5);
-
-        Score Host = obj.getScore(ChatColor.GOLD + "Host: " + ChatColor.AQUA + "SebHobbit");
-        Host.setScore(4);
-
-
-        Team Kills = board.registerNewTeam("kills");
-        Kills.addEntry(ChatColor.RED.toString());
-        Kills.setPrefix(ChatColor.GOLD + "Kills: ");
-        Kills.setSuffix(ChatColor.AQUA + "0");
-        obj.getScore(ChatColor.RED.toString()).setScore(3);
-
-        kills.put(player.getUniqueId(), 0);
-
-        int border = (int) getServer().getWorld("world").getWorldBorder().getSize();
-
-        Team Border = board.registerNewTeam("border1");
-        Border.addEntry(ChatColor.GREEN.toString());
-        Border.setPrefix(ChatColor.GOLD + "Border: ");
-        Border.setSuffix(ChatColor.AQUA.toString() + border);
-        obj.getScore(ChatColor.GREEN.toString()).setScore(2);
-
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            int border1 = (int) getServer().getWorld("world").getWorldBorder().getSize();
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                players.getScoreboard().getTeam("border1").setSuffix(ChatColor.AQUA.toString() + border1);
-            }
-        }, 20, 20);
-
-
-        Score space2 = obj.getScore(ChatColor.GRAY + "§m---------------------- §r");
-        space2.setScore(1);
-
-        player.setScoreboard(board);
-
-
-    }
 
     @Deprecated
     @EventHandler
@@ -336,6 +332,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
 
 
     }
+
     @EventHandler
     public void onKill(PlayerDeathEvent e) {
 
@@ -357,7 +354,7 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
     //credit to WarmakerT -->
     @EventHandler
 //When player breaks a block:
-    public void onBlockBreak(BlockBreakEvent event){
+    public void onBlockBreak(BlockBreakEvent event) {
 //if Block is a leaf Block and Player's held item
         if(event.getBlock().getType().equals(Material.LEAVES) && event.getPlayer().getItemInHand().getType().equals(Material.SHEARS) || event.getPlayer().getItemInHand() == null) {
             /*Cancel this event. Meaning, don't let the block break.*/
