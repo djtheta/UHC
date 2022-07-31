@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,6 +54,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 
 
+        getCommand("release").setExecutor(new WhitelistCommand());
         getCommand("vanish").setExecutor(new VanishCommand());
         getCommand("victory").setExecutor(new Victory());
         Bukkit.getPluginManager().registerEvents(other, this);
@@ -117,9 +119,9 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                 Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
 
 
-                player.performCommand("spreadplayers 0 0 750 900 true @a");
+                player.performCommand("spreadplayers 0 0 1000 1498 true @a");
                 player.performCommand("worldborder center 0 0");
-                player.performCommand("worldborder set 2000");
+                player.performCommand("worldborder set 3000");
                 player.performCommand("gamerule naturalRegeneration false");
                 player.performCommand("pvp");
 
@@ -206,6 +208,10 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                         players.sendTitle(ChatColor.DARK_GREEN + "Grace Period!", ChatColor.GRAY + "PVP Disabled for 20 minutes!");
                         players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
                         players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
+                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
+                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
+                        players.getInventory().addItem(new ItemStack(Material.BOOK, 3));
+                        players.getInventory().addItem(new ItemStack(Material.SUGAR_CANE, 12));
                         players.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 20));
                         players.getInventory().addItem(new ItemStack(Material.FEATHER, 10));
                         players.playSound(players.getLocation(), Sound.NOTE_BASS, 10, 10);
@@ -266,7 +272,20 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
             player.setStatistic(Statistic.PLAYER_KILLS, 1);
 
-            Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+                @Override
+                public void run() {
+                    Team team = board.registerNewTeam("team");
+                    for(Player players : Bukkit.getOnlinePlayers()) {
+                        team.setSuffix(ChatColor.YELLOW.toString() + players.getHealth());
+                        team.addEntry(player.getName());
+                    }
+                }
+            }, 20, 20);
+
+
+
             Objective health = board.registerNewObjective("Health", Criterias.HEALTH);
             health.setDisplaySlot(DisplaySlot.BELOW_NAME);
             health.setDisplayName(ChatColor.RED + "❤");

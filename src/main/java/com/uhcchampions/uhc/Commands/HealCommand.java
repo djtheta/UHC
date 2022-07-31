@@ -50,7 +50,6 @@ public class HealCommand implements CommandExecutor {
 
                     target.sendMessage(ChatColor.RED + "You have been healed!");
                     player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + target.getName());
-
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "No permission!");
