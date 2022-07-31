@@ -257,6 +257,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             int tps = (int) Lag.getTPS();
             TitleAPI.sendTabTitle(player, ChatColor.GOLD + ChatColor.BOLD.toString() + "           KingdomsHQ " + ChatColor.AQUA + ChatColor.BOLD + "UHC " + "S1           " + "\n", ChatColor.GOLD + "                         \n           TPS" + ChatColor.RESET + " " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + tps + ChatColor.RESET + "           ");
@@ -272,18 +273,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
             player.setStatistic(Statistic.PLAYER_KILLS, 1);
 
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    Team team = board.registerNewTeam("team");
-                    for(Player players : Bukkit.getOnlinePlayers()) {
-                        team.setSuffix(ChatColor.YELLOW.toString() + players.getHealth());
-                        team.addEntry(player.getName());
-                    }
-                }
-            }, 20, 20);
-
+            Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 
 
             Objective health = board.registerNewObjective("Health", Criterias.HEALTH);
