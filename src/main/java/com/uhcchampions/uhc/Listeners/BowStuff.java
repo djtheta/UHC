@@ -29,11 +29,11 @@ public class BowStuff implements Listener {
 
                     Player shooter = (Player) arrow.getShooter();
                     Player player = (Player) e.getEntity();
-                    double health = player.getHealth() / 2;
+                    double health = (player.getHealth() / 2);
                     if (e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                         if (e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) {
                             ((Player) arrow.getShooter()).playSound(((Player) arrow.getShooter()).getLocation(), Sound.SUCCESSFUL_HIT, 5, 1);
-                            shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + health + " ❤");
+                            shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + Math.round(health) + " ❤");
                             if (!(arrow.getShooter() instanceof Player)) return;
                         }
                         player.isDead();

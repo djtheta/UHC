@@ -40,7 +40,6 @@ public class VanishCommand implements CommandExecutor, Listener {
                 for(Player target : Bukkit.getOnlinePlayers()) {
                     target.hidePlayer(player);
                     player.setAllowFlight(true);
-                    player.performCommand("tp @r");
                 }
                 player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f, 1.0f);
                 player.sendMessage(ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");

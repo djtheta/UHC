@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -118,6 +120,9 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                 Bukkit.dispatchCommand(console, "scoreboard teams add solo_take_the_L");
                 Bukkit.dispatchCommand(console, "scoreboard teams join solo_take_the_L @r[team=]");
 
+                for(Player players : Bukkit.getOnlinePlayers()) {
+                    players.sendMessage(ChatColor.GOLD + "Teleporting..." + "\nWaiting for TPS to stabilize..");
+                }
 
                 player.performCommand("spreadplayers 0 0 1000 1498 true @a");
                 player.performCommand("worldborder center 0 0");
@@ -186,7 +191,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                 }, 300);
 
                 Bukkit.getScheduler().runTaskLater(this, () -> {
-                    player.performCommand("worldborder set 150 3600"); //1 hour to shrink to 150
+                    player.performCommand("worldborder set 100 1200"); //1 hour to shrink to 100
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 
                         players.sendTitle(ChatColor.DARK_RED + "Border has begun to shrink!", ChatColor.RED + "Head towards 0 0.");
@@ -194,11 +199,21 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                     }
                 }, 72000); //1 hour till border shrinks
 
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle(ChatColor.YELLOW + "Border set!", ChatColor.GRAY + "Border is now 100x100");
+                            players.playSound(players.getLocation(), Sound.NOTE_PLING, 10, 10);
+                        }
+                    }
+                }, 96000);
+
                 Bukkit.getScheduler().runTaskLater(this, () -> {
                     player.performCommand("pvpe");
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 
-                        players.sendTitle(ChatColor.RED + "PvP ENABLED!", ChatColor.GRAY + "Good luck.");
+                        players.sendTitle(ChatColor.GREEN + "PvP ENABLED!", ChatColor.GRAY + "Good luck.");
                         players.playSound(players.getLocation(), Sound.NOTE_PLING, 10, 10);
                     }
                 }, 24000); //pvp enabled!
@@ -333,7 +348,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
         e.getEntity().getPlayer().setBanned(true);
         e.getEntity().getPlayer().kickPlayer(ChatColor.GOLD + "Thank you for playing!" + ChatColor.YELLOW + "\nCome back next Season!");
-
+        
 
 
 
