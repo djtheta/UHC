@@ -1,4 +1,4 @@
-package com.uhcchampions.uhc;
+package com.uhcchampions.uhc.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +16,7 @@ import static java.lang.Math.sin;
 
 public class HealAll implements CommandExecutor {
 
+    @Deprecated
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
@@ -33,7 +34,8 @@ public class HealAll implements CommandExecutor {
                     players.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.0f, 1.0f);
 
                     players.sendMessage(ChatColor.RED + "You have been healed!");
-                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + players.getName());
+                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + "everyone" + ChatColor.RED + ".");
+                    players.sendTitle(ChatColor.LIGHT_PURPLE + "Everyone has been healed!", ChatColor.RED + "!_!");
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "No permission!");
