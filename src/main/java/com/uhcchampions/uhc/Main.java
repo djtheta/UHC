@@ -129,6 +129,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                 player.performCommand("worldborder set 3000");
                 player.performCommand("gamerule naturalRegeneration false");
                 player.performCommand("pvp");
+                player.performCommand("difficulty hard");
 
                 Bukkit.getScheduler().runTaskLater(this, () -> {
                     for (Player players : Bukkit.getOnlinePlayers()) {
@@ -225,6 +226,8 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                         players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
                         players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
                         players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
+                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 string" + ChatColor.GRAY + ".");
+                        players.getInventory().addItem(new ItemStack(Material.STRING, 3));
                         players.getInventory().addItem(new ItemStack(Material.BOOK, 3));
                         players.getInventory().addItem(new ItemStack(Material.SUGAR_CANE, 12));
                         players.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 20));
@@ -380,7 +383,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 //When player breaks a block:
     public void onBlockBreak(BlockBreakEvent event) {
 //if Block is a leaf Block and Player's held item
-        if(event.getBlock().getType().equals(Material.LEAVES) && event.getPlayer().getItemInHand().getType().equals(Material.SHEARS) || event.getPlayer().getItemInHand() == null) {
+        if(event.getBlock().getType().equals(Material.LEAVES) && event.getPlayer().getItemInHand().getType().equals(Material.SHEARS)) {
             /*Cancel this event. Meaning, don't let the block break.*/
             event.setCancelled(true);
 //Remove the blocks, or effectively just set it to air.

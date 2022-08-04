@@ -21,19 +21,21 @@ public class CutCLean implements Listener {
 
     public void onBlockBreak(BlockBreakEvent e) {
         if (e.getBlock().getType() == Material.IRON_ORE) {
-            Location location = e.getBlock().getLocation();
-            World world = location.getWorld();
             e.getBlock().setType(Material.AIR);
-            world.dropItemNaturally(location, new ItemStack(Material.IRON_INGOT));
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
             e.getPlayer().giveExp(4);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
         if (e.getBlock().getType() == Material.GOLD_ORE) {
-            Location location = e.getBlock().getLocation();
-            World world = e.getBlock().getWorld();
             e.getBlock().setType(Material.AIR);
-            world.dropItemNaturally(location, new ItemStack(Material.GOLD_INGOT));
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
             e.getPlayer().giveExp(5);
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
+        }
+        if(e.getBlock().getType() == Material.DIAMOND_ORE) {
+            e.getBlock().setType(Material.AIR);
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.DIAMOND));
+            e.getPlayer().giveExp(6);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
         }
     }

@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-
+import java.text.DecimalFormat;
 
 
 public class BowStuff implements Listener {
@@ -21,19 +21,23 @@ public class BowStuff implements Listener {
     public BowStuff(Main main) {
         this.mainClass = main;
     }
+
     @EventHandler
     public void onShot(EntityDamageByEntityEvent e) {
 
                 Bukkit.getScheduler().runTaskLater(mainClass, () -> {
                     Arrow arrow = (Arrow) e.getDamager();
 
+
+
                     Player shooter = (Player) arrow.getShooter();
                     Player player = (Player) e.getEntity();
                     double health = (player.getHealth() / 2);
+                    DecimalFormat df = new DecimalFormat("#.#");
                     if (e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                         if (e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) {
                             ((Player) arrow.getShooter()).playSound(((Player) arrow.getShooter()).getLocation(), Sound.SUCCESSFUL_HIT, 5, 1);
-                            shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + Math.round(health) + " ❤");
+                            shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + df.format(health) + " ❤");
                             if (!(arrow.getShooter() instanceof Player)) return;
                         }
                         player.isDead();

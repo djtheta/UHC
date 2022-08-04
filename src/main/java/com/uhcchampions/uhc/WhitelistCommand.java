@@ -19,6 +19,8 @@ public class WhitelistCommand implements CommandExecutor {
                 player.performCommand("whitelist add ALALF");
                 player.performCommand("whitelist add cliver222");
                 player.performCommand("whitelist add ogblockbuster08");
+                player.performCommand("whitelist add ihavemyhat");
+                player.performCommand("whitelist add jackie0978");
             } else {
                 player.sendMessage(ChatColor.RED + "No permission!");
             }

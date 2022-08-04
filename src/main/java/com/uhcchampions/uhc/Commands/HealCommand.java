@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -28,6 +30,7 @@ public class HealCommand implements CommandExecutor {
                 if (args.length == 0) {
                     player.setHealth(player.getMaxHealth());
                     player.setFoodLevel(20);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 10, 10, false, false));
 
                     for (int i = 0; i < 180; i++) {
                         Bukkit.dispatchCommand(console, "particle heart " + (player.getLocation().getX() + (1 * (cos((i - 90) * -1)))) + " " + (player.getLocation().getY() + (0.01 * i)) + " " + (player.getLocation().getZ() + (1 * (sin((i - 90) * -1)))) + " 0 0 0 1");
@@ -41,6 +44,7 @@ public class HealCommand implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[0]);
                     target.setHealth(target.getMaxHealth());
                     target.setFoodLevel(20);
+                    target.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 10, 10, false, false));
 
                     for (int i = 0; i < 180; i++) {
                         Bukkit.dispatchCommand(console, "particle heart " + (target.getLocation().getX() + (1 * (cos((i - 90) * -1)))) + " " + (target.getLocation().getY() + (0.01 * i)) + " " + (target.getLocation().getZ() + (1 * (sin((i - 90) * -1)))) + " 0 0 0 1");
@@ -50,6 +54,20 @@ public class HealCommand implements CommandExecutor {
 
                     target.sendMessage(ChatColor.RED + "You have been healed!");
                     player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + target.getName());
+                } else if (args[0].equalsIgnoreCase("@a")) {
+                    for(Player players : Bukkit.getOnlinePlayers()) {
+                        players.setHealth(players.getMaxHealth());
+                        players.setFoodLevel(20);
+                        players.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 10, 10, false, false));
+
+                        for (int i = 0; i < 180; i++) {
+                            Bukkit.dispatchCommand(console, "particle heart " + (players.getLocation().getX() + (1 * (cos((i - 90) * -1)))) + " " + (players.getLocation().getY() + (0.01 * i)) + " " + (players.getLocation().getZ() + (1 * (sin((i - 90) * -1)))) + " 0 0 0 1");
+                        }
+
+                        players.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.0f, 1.0f);
+
+
+                    }
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "No permission!");
