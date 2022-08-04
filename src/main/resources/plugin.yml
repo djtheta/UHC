@@ -15,6 +15,7 @@ commands:
   fly:
   gms:
   release:
+  healall:
 
 
 

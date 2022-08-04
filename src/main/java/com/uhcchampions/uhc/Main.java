@@ -56,6 +56,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 
 
+        getCommand("healall").setExecutor(new HealAll());
         getCommand("release").setExecutor(new WhitelistCommand());
         getCommand("vanish").setExecutor(new VanishCommand());
         getCommand("victory").setExecutor(new Victory());
@@ -64,7 +65,6 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         getCommand("fly").setExecutor(new Fly());
         getCommand("gmc").setExecutor(new GMC());
         getCommand("gms").setExecutor(new GMS());
-
         ItemStack is = new ItemStack(Material.GOLDEN_APPLE, 1);
         ItemMeta meta = is.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
