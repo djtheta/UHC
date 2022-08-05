@@ -50,6 +50,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         other = new BowStuff(this);
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 
+        Bukkit.getPluginManager().registerEvents(new VanishCommand(), this);
         getCommand("gmsp").setExecutor(new GMSP());
         getCommand("healall").setExecutor(new HealAll());
         getCommand("release").setExecutor(new WhitelistCommand());
@@ -217,16 +218,6 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                 Bukkit.getScheduler().runTaskLater(this, () -> {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                         players.sendTitle(ChatColor.DARK_GREEN + "Grace Period!", ChatColor.GRAY + "PVP Disabled for 20 minutes!");
-                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
-                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
-                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
-                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
-                        players.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 string" + ChatColor.GRAY + ".");
-                        players.getInventory().addItem(new ItemStack(Material.STRING, 3));
-                        players.getInventory().addItem(new ItemStack(Material.BOOK, 3));
-                        players.getInventory().addItem(new ItemStack(Material.SUGAR_CANE, 12));
-                        players.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 20));
-                        players.getInventory().addItem(new ItemStack(Material.FEATHER, 10));
                         players.playSound(players.getLocation(), Sound.NOTE_BASS, 10, 10);
                     }
                 }, 600);
@@ -270,6 +261,18 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
+        if(!player.hasPlayedBefore()) {
+            player.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
+            player.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
+            player.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
+            player.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
+            player.sendMessage(ChatColor.GRAY + "All players have received " + ChatColor.GOLD + "3 string" + ChatColor.GRAY + ".");
+            player.getInventory().addItem(new ItemStack(Material.STRING, 3));
+            player.getInventory().addItem(new ItemStack(Material.BOOK, 3));
+            player.getInventory().addItem(new ItemStack(Material.SUGAR_CANE, 12));
+            player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 20));
+            player.getInventory().addItem(new ItemStack(Material.FEATHER, 10));
+        }
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             int tps = (int) Lag.getTPS();
@@ -283,8 +286,6 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
 
             e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
-
-            player.setStatistic(Statistic.PLAYER_KILLS, 1);
 
             Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 

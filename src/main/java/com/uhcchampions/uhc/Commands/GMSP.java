@@ -1,5 +1,6 @@
 package com.uhcchampions.uhc.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -12,20 +13,24 @@ public class GMSP implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("gmsp.use")) {
-                player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
-                player.setGameMode(GameMode.SPECTATOR);
+            if (args.length == 0) {
+                if (player.hasPermission("gmsp.use")) {
+                    player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
+                    player.setGameMode(GameMode.SPECTATOR);
 
+                } else {
+                    player.sendMessage(ChatColor.RED + "No permission!");
 
-            } else {
-                player.sendMessage(ChatColor.RED + "No permission!");
+                }
+                } else if (args.length == 1) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    player.sendMessage(ChatColor.GOLD + "Set " + target.getName() + "'s gamemode to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
+                    target.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
+                    target.setGameMode(GameMode.SPECTATOR);
+                }
             }
 
 
-
-
-
-        }
 
 
 

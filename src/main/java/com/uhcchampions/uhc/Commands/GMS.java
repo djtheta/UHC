@@ -1,5 +1,6 @@
 package com.uhcchampions.uhc.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -13,19 +14,22 @@ public class GMS implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
 
-            if(player.hasPermission("gms.use")) {
-                player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "survival" + ChatColor.GOLD + ".");
-                player.setGameMode(GameMode.SURVIVAL);
+            if (args.length == 0) {
+                if (player.hasPermission("gms.use")) {
+                    player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "survival" + ChatColor.GOLD + ".");
+                    player.setGameMode(GameMode.SURVIVAL);
 
+                } else {
+                    player.sendMessage(ChatColor.RED + "No permission!");
+                }
 
-            } else {
-                player.sendMessage(ChatColor.RED + "No permission!");
+            } else if (args.length == 1) {
+                Player target = Bukkit.getPlayer(args[0]);
+                player.sendMessage(ChatColor.GOLD + "Set " + target.getName() + "'s gamemode to " + ChatColor.AQUA + "survival" + ChatColor.GOLD + ".");
+                target.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "survival" + ChatColor.GOLD + ".");
+                target.setGameMode(GameMode.SURVIVAL);
+
             }
-
-
-
-
-
         }
 
 
