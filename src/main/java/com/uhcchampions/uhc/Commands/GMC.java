@@ -15,16 +15,16 @@ public class GMC implements CommandExecutor {
             Player player = (Player) sender;
             if (args.length == 0) {
                 if (player.hasPermission("gmc.use")) {
-                    player.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
                     player.setGameMode(GameMode.CREATIVE);
 
                 } else {
-                    player.sendMessage(ChatColor.RED + "No permission!");
+                    player.sendMessage(ChatColor.RED + "No permission.");
                 }
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
-                player.sendMessage(ChatColor.GOLD + "Set " + target.getName() + "'s gamemode to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
-                target.sendMessage(ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
+                player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Set " + target.getName() + "'s gamemode to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
+                target.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "creative" + ChatColor.GOLD + ".");
                 target.setGameMode(GameMode.CREATIVE);
 
             }

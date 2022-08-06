@@ -38,8 +38,8 @@ public class HealCommand implements CommandExecutor {
 
                     player.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.0f, 1.0f);
 
-                    player.sendMessage(ChatColor.RED + "You have been healed!");
-                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + player.getName());
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have been healed!");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have healed " + ChatColor.AQUA + player.getName());
                 } else if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     target.setHealth(target.getMaxHealth());
@@ -52,11 +52,11 @@ public class HealCommand implements CommandExecutor {
 
                     target.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.0f, 1.0f);
 
-                    target.sendMessage(ChatColor.RED + "You have been healed!");
-                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + target.getName());
+                    target.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have been healed!");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have healed " + ChatColor.AQUA + target.getName());
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "No permission!");
+                player.sendMessage(ChatColor.RED + "No permission.");
             }
 
 

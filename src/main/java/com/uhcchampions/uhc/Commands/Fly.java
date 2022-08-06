@@ -29,7 +29,7 @@ public class Fly implements CommandExecutor {
                     for (int i = 0; i < 180; i++) {
                         Bukkit.dispatchCommand(console, "particle cloud " + (player.getLocation().getX() + (1 * (cos((i - 90) * -1)))) + " " + (player.getLocation().getY()) + " " + (player.getLocation().getZ() + (1 * (sin((i - 90) * -1)))) + " 0 0 0 1");
                     }
-                    player.sendMessage(ChatColor.GOLD + "You may no longer " + ChatColor.AQUA + "fly" + ChatColor.GOLD + ".");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You may no longer " + ChatColor.AQUA + "fly" + ChatColor.GOLD + ".");
 
                 } else {
                     enabled = true;
@@ -38,7 +38,7 @@ public class Fly implements CommandExecutor {
                     for (int i = 0; i < 180; i++) {
                         Bukkit.dispatchCommand(console, "particle cloud " + (player.getLocation().getX() + (1 * (cos((i - 90) * -1)))) + " " + (player.getLocation().getY()) + " " + (player.getLocation().getZ() + (1 * (sin((i - 90) * -1)))) + " 0 0 0 1");
                     }
-                    player.sendMessage(ChatColor.GOLD + "You may now " + ChatColor.AQUA + "fly" + ChatColor.GOLD + ".");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You may now " + ChatColor.AQUA + "fly" + ChatColor.GOLD + ".");
                 }
 
 

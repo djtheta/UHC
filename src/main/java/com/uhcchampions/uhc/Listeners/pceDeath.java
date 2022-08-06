@@ -10,6 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+
 public class pceDeath implements Listener {
 
     @Deprecated
@@ -33,8 +37,10 @@ public class pceDeath implements Listener {
             players.playSound(players.getLocation(), Sound.AMBIENCE_THUNDER, 10, 10);
         }
 
-        Entity victim = e.getEntity();
-        Entity killer = e.getEntity().getKiller();
+
+
+        Entity victim = e.getEntity().getPlayer();
+        Entity killer = e.getEntity().getPlayer().getKiller();
 
         int kills = e.getEntity().getKiller().getStatistic(Statistic.PLAYER_KILLS);
 

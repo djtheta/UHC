@@ -38,7 +38,7 @@ public class VanishCommand implements CommandExecutor, Listener {
                         target.showPlayer(player);
                         player.setAllowFlight(false);
                     }
-                    player.sendMessage(ChatColor.AQUA + "You are no longer " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.AQUA + "You are no longer " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
 
                 } else { // they are not vanished
                     vanished.add(player.getUniqueId());
@@ -53,12 +53,12 @@ public class VanishCommand implements CommandExecutor, Listener {
                     is.setItemMeta(im);
                     player.getInventory().addItem(is);
                     player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f, 1.0f);
-                    player.sendMessage(ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
+                    player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + (ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + "."));
                 }
 
 
             } else {
-                player.sendMessage(ChatColor.RED + "No permission!");
+                player.sendMessage(ChatColor.RED + "No permission.");
             }
 
 
@@ -79,7 +79,7 @@ public class VanishCommand implements CommandExecutor, Listener {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (player.getInventory().getItemInHand().isSimilar(is)) {
                 player.performCommand("tp @r");
-                player.sendMessage(ChatColor.GOLD + "Teleporting...");
+                player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Teleporting...");
         }
     }
 }

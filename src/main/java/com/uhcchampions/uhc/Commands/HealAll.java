@@ -23,6 +23,7 @@ public class HealAll implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if (player.hasPermission("healall.use")) {
+                player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have healed " + ChatColor.AQUA + "everyone" + ChatColor.GOLD + ".");
                 for (Player players : Bukkit.getOnlinePlayers()) {
                     players.setHealth(players.getMaxHealth());
                     players.setFoodLevel(20);
@@ -33,12 +34,11 @@ public class HealAll implements CommandExecutor {
 
                     players.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1.0f, 1.0f);
 
-                    players.sendMessage(ChatColor.RED + "You have been healed!");
-                    player.sendMessage(ChatColor.RED + "You have healed " + ChatColor.LIGHT_PURPLE + "everyone" + ChatColor.RED + ".");
+                    players.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "You have been healed!");
                     players.sendTitle(ChatColor.LIGHT_PURPLE + "Everyone has been healed!", ChatColor.RED + "!_!");
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "No permission!");
+                player.sendMessage(ChatColor.RED + "No permission.");
             }
         }
 
