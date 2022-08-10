@@ -3,6 +3,7 @@ package com.uhcchampions.uhc.Listeners;
 import com.uhcchampions.uhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -39,7 +40,9 @@ public class BowStuff implements Listener {
                             shooter.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + player.getDisplayName() + ChatColor.YELLOW + " is now at " + ChatColor.RED + Math.round(health) + " ❤");
                             if (!(arrow.getShooter() instanceof Player)) return;
                         }
-                        player.isDead();
+                        if(player.getGameMode().equals(GameMode.SPECTATOR)) {
+                            return;
+                        }
                     }
                 }, 0);
             }

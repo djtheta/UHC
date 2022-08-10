@@ -39,21 +39,6 @@ public class pceDeath implements Listener {
 
 
 
-        Entity victim = e.getEntity().getPlayer();
-        Entity killer = e.getEntity().getPlayer().getKiller();
-
-        int kills = e.getEntity().getKiller().getStatistic(Statistic.PLAYER_KILLS);
-
-        if(kills == 1) {
-            e.setDeathMessage(ChatColor.RED + victim.getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + "[" + ChatColor.WHITE + "1" + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
-        }
-
-        if(e.getEntity().getKiller() != null) {
-                e.setDeathMessage(ChatColor.RED + victim.getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.GRAY + "[" + ChatColor.WHITE + kills++ + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
-                Bukkit.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.GRAY + " has been eliminated.");
-        }
-
-
     }
 
 }

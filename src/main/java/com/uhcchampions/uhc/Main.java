@@ -8,14 +8,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,28 +34,32 @@ import java.util.UUID;
 
 public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
-    ArrayList<String> msgs = new ArrayList<String>();
     //Main class
     public BowStuff other;
-    
+
     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
-    private HashMap<UUID, Integer> kills1 = new HashMap<>();
+   private HashMap<UUID, Integer> kills1 = new HashMap<>();
 
+    public static String s = (ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " ");
+    private String z = (ChatColor.GOLD + ChatColor.BOLD.toString() + "BORDER " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " ");
 
     @Deprecated
     @Override
     public void onEnable() {
-
         other = new BowStuff(this);
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
+        Bukkit.dispatchCommand(console, "gamerule sendCommandFeedback false");
+        console.sendMessage("Gamerule Disabled!");
         Bukkit.getPluginManager().registerEvents(new Gapples(), this);
-        Bukkit.getPluginManager().registerEvents(new VanishCommand(), this);
+        Bukkit.getPluginManager().registerEvents(new Staff(), this);
+        getCommand("ban").setExecutor(new BanCommand());
+        getCommand("kick").setExecutor(new KickCommand());
         getCommand("w0w").setExecutor(new w0w());
         getCommand("gmsp").setExecutor(new GMSP());
         getCommand("healall").setExecutor(new HealAll());
         getCommand("release").setExecutor(new WhitelistCommand());
-        getCommand("vanish").setExecutor(new VanishCommand());
+        getCommand("staff").setExecutor(new Staff());
         getCommand("victory").setExecutor(new Victory());
         Bukkit.getPluginManager().registerEvents(other, this);
         getCommand("heal").setExecutor(new HealCommand());
@@ -80,12 +87,13 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         Bukkit.addRecipe(recipe);
 
 
+        getCommand("speed").setExecutor(new Speed());
         Bukkit.getPluginManager().registerEvents(new CutCLean(), this);
         getCommand("uhc").setExecutor(this);
         getServer().getConsoleSender().sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "KingdomsHQ UHC Enabled!");
         getServer().getConsoleSender().sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "KingdomsHQ UHC Enabled!");
         getServer().getConsoleSender().sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "KingdomsHQ UHC Enabled!");
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "/");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "!_! Theta's UHC");
         getCommand("pvp").setExecutor(new PvPCommand());
         getCommand("pvpe").setExecutor(new PvPCommand2());
         Bukkit.getPluginManager().registerEvents(new pceDeath(), this);
@@ -208,11 +216,33 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
                     @Override
                     public void run() {
                         for(Player players : Bukkit.getOnlinePlayers()) {
-                            players.sendTitle(ChatColor.GOLD + "Border shrinks in ", ChatColor.AQUA + "30 minutes");
+                            players.sendMessage(z + ChatColor.AQUA + "Border will be begin to shrink in 30 minutes.");
                             players.playSound(players.getLocation(), Sound.NOTE_PIANO, 10, 10);
                         }
                     }
                 }, 36000);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendMessage(z + ChatColor.AQUA + "Border will be begin to shrink in 10 minutes.");
+                            players.playSound(players.getLocation(), Sound.NOTE_PIANO, 10, 10);
+                        }
+                    }
+                }, 60000);
+
+                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        for(Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendMessage(z + ChatColor.AQUA + "Border will be begin to shrink in 5 minutes.");
+                            players.playSound(players.getLocation(), Sound.NOTE_PIANO, 10, 10);
+                        }
+                    }
+                }, 66000);
+
+
 
                 Bukkit.getScheduler().runTaskLater(this, () -> {
                     player.performCommand("pvpe");
@@ -271,15 +301,15 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
 
         if(player.getName().equals("Nans12_")) {
-                player.setDisplayName(ChatColor.DARK_PURPLE + "[" + ChatColor.LIGHT_PURPLE + "Streamer" + ChatColor.DARK_PURPLE + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+                player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.LIGHT_PURPLE + "Streamer" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
         }
 
         if(!player.hasPlayedBefore()) {
-            player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
-            player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
-            player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
-            player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
-            player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "3 string" + ChatColor.GRAY + ".");
+            player.sendMessage(s + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "20 steak" + ChatColor.GRAY + ".");
+            player.sendMessage(s + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "10 feathers" + ChatColor.GRAY + ".");
+            player.sendMessage(s + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "12 sugar cane" + ChatColor.GRAY + ".");
+            player.sendMessage(s + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "3 books" + ChatColor.GRAY + ".");
+            player.sendMessage(s + ChatColor.GRAY + "You have received " + ChatColor.GOLD + "3 string" + ChatColor.GRAY + ".");
             player.getInventory().addItem(new ItemStack(Material.STRING, 3));
             player.getInventory().addItem(new ItemStack(Material.BOOK, 3));
             player.getInventory().addItem(new ItemStack(Material.SUGAR_CANE, 12));
@@ -324,13 +354,16 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
             Host.setScore(4);
 
 
+        int stat = player.getStatistic(Statistic.PLAYER_KILLS);
         Team Kills = board.registerNewTeam("kills");
         Kills.addEntry(ChatColor.RED.toString());
         Kills.setPrefix(ChatColor.GOLD + "Kills: ");
-        Kills.setSuffix(ChatColor.AQUA + "0");
+        Kills.setSuffix(ChatColor.AQUA.toString() + stat);
         obj.getScore(ChatColor.RED.toString()).setScore(3);
 
-        kills1.put(player.getUniqueId(), 0);
+
+        kills1.put(player.getUniqueId(), stat);
+
 
             int border = (int) getServer().getWorld("world").getWorldBorder().getSize();
 
@@ -354,25 +387,19 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
             player.setScoreboard(board);
         }
 
+
     @Deprecated
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity().getPlayer();
         player.setGameMode(GameMode.SPECTATOR);
-        player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Thank you for playing!" + ChatColor.AQUA + ChatColor.BOLD.toString() + "\nUHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.YELLOW + "Come back next Season!");
-        player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
+        for(Player players : Bukkit.getOnlinePlayers()) {
+            players.hidePlayer(player);
+        }
+        player.sendMessage(s + ChatColor.GOLD + "Thank you for playing!" + s + ChatColor.YELLOW + "Come back next game!");
+        player.sendMessage(s + ChatColor.GOLD + "Your gamemode has been set to " + ChatColor.AQUA + "spectator" + ChatColor.GOLD + ".");
         player.setDisplayName(ChatColor.GRAY + ChatColor.ITALIC.toString() + player.getName());
 
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " slipped on a banana.");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " bought too much dogecoin.");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " ate too many donuts.");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " became Homer Simpson.");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " had an allergy attack.");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " fucking died. -Nans12_");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " Q_Q pce");
-        msgs.add(ChatColor.RED + player.getName() + ChatColor.YELLOW + " got DDOS'd");
-        Random ran = new Random();
-        e.setDeathMessage(msgs.get(ran.nextInt(msgs.size())));
     }
 
     @EventHandler
@@ -383,16 +410,18 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         int kills = this.kills1.get(killer.getUniqueId());
 
 
-        if(e.getEntity().getKiller() != null) {
+        if (e.getEntity().getKiller() != null) {
             kills++;
             this.kills1.put(killer.getUniqueId(), kills);
             killer.getScoreboard().getTeam("kills").setSuffix(ChatColor.AQUA.toString() + kills);
+            e.setDeathMessage(ChatColor.RED + e.getEntity().getPlayer().getName() + ChatColor.YELLOW + " was slain by " + ChatColor.RED + killer.getName() + ChatColor.YELLOW + " using " + ChatColor.GRAY + "[" + ChatColor.WHITE + killer.getEquipment().getItemInHand().getItemMeta().getDisplayName() + ChatColor.GRAY + "]" + ChatColor.YELLOW + ".");
+            Bukkit.broadcastMessage(ChatColor.RED + e.getEntity().getPlayer().getName() + ChatColor.GRAY + " has been eliminated.");
+            }
         }
 
 
 
 
-    }
     //credit to WarmakerT -->
     @EventHandler
 //When player breaks a block:
@@ -423,4 +452,11 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         Player player = e.getPlayer();
         e.setQuitMessage(ChatColor.DARK_GRAY + "(" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
     }
+
+
+    @EventHandler
+    public void onPing(ServerListPingEvent e) {
+        e.setMaxPlayers(420);
+    }
+
 }
