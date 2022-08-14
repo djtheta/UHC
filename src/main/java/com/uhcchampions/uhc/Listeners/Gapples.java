@@ -1,4 +1,4 @@
-package com.uhcchampions.uhc.Commands;
+package com.uhcchampions.uhc.Listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

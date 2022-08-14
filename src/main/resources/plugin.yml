@@ -21,6 +21,10 @@ commands:
   speed:
   ban:
   kick:
+  message:
+    aliases: [msg]
+  reply:
+    aliases: [r]
 
 
 

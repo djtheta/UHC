@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 
 public class CutCLean implements Listener {
-    HashMap<Integer, ItemStack> leftOver = new HashMap<Integer, ItemStack>();
 
 
     @Deprecated
@@ -29,31 +28,19 @@ public class CutCLean implements Listener {
             e.getBlock().setType(Material.AIR);
             e.getPlayer().giveExp(4);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
-            leftOver.putAll((e.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT, 1))));
-            if (!leftOver.isEmpty()) {
-                Location loc = e.getPlayer().getLocation();
-                e.getPlayer().getWorld().dropItem(loc, new ItemStack(Material.getMaterial(leftOver.get(0).getTypeId()), leftOver.get(0).getAmount()));
-            }
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT, 1));
         }
         if (e.getBlock().getType() == Material.GOLD_ORE) {
             e.getBlock().setType(Material.AIR);;
             e.getPlayer().giveExp(5);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
-            leftOver.putAll((e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 1))));
-            if (!leftOver.isEmpty()) {
-                Location loc = e.getPlayer().getLocation();
-                e.getPlayer().getWorld().dropItem(loc, new ItemStack(Material.getMaterial(leftOver.get(0).getTypeId()), leftOver.get(0).getAmount()));
-            }
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 1));
         }
         if(e.getBlock().getType() == Material.DIAMOND_ORE) {
             e.getBlock().setType(Material.AIR);
             e.getPlayer().giveExp(6);
             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 10, 2);
-            leftOver.putAll((e.getPlayer().getInventory().addItem(new ItemStack(Material.DIAMOND, 1))));
-            if (!leftOver.isEmpty()) {
-                Location loc = e.getPlayer().getLocation();
-                e.getPlayer().getWorld().dropItem(loc, new ItemStack(Material.getMaterial(leftOver.get(0).getTypeId()), leftOver.get(0).getAmount()));
-            }
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.DIAMOND, 1));
         }
     }
 
