@@ -11,23 +11,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import sun.security.util.Cache;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static com.uhcchampions.uhc.Main.s;
+import static com.uhcchampions.uhc.Util.s;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class Staff implements CommandExecutor, Listener {
 
     private boolean enabled = true;
     private boolean enabled2 = false;
 
-    Map<String, Long> cooldowns = new HashMap<String, Long>();
     private final List<UUID> vanished = new ArrayList<>();
     ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 
@@ -46,7 +51,7 @@ public class Staff implements CommandExecutor, Listener {
                     player.getInventory().clear();
                     player.sendMessage(s + ChatColor.AQUA + "You are no longer " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
                     player.sendMessage(s + ChatColor.AQUA + "You are no longer in " + ChatColor.GOLD + "staff mode" + ChatColor.AQUA + ".");
-                    player.setGameMode(GameMode.SURVIVAL);
+                    player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
 
                 } else { // they are not vanished
                     vanished.add(player.getUniqueId());
@@ -54,7 +59,6 @@ public class Staff implements CommandExecutor, Listener {
                     for (Player target : Bukkit.getOnlinePlayers()) {
                         target.hidePlayer(player);
                     }
-                    player.setGameMode(GameMode.ADVENTURE);
                     player.setAllowFlight(true);
 
                     ItemStack is = new ItemStack(Material.CARPET, 1, (short) 5);
@@ -76,6 +80,7 @@ public class Staff implements CommandExecutor, Listener {
                     player.getInventory().setItem(4, is);
                     player.getInventory().setItem(0, is2);
                     player.playSound(player.getLocation(), Sound.BAT_TAKEOFF, 1.0f, 1.0f);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000000, 8));
                     player.sendMessage(s + ChatColor.AQUA + "You are now " + ChatColor.GOLD + "vanished" + ChatColor.AQUA + ".");
                     player.sendMessage(s + ChatColor.AQUA + "You are now in " + ChatColor.GOLD + "staff mode" + ChatColor.AQUA + ".");
                 }
@@ -117,9 +122,10 @@ public class Staff implements CommandExecutor, Listener {
                 player.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " " + ChatColor.GOLD + "Teleporting...");
             }
         }
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if(player.getInventory().getItemInHand().isSimilar(is2)) {
-                if(enabled) {
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (player.getInventory().getItemInHand().isSimilar(is2)) {
+                if (enabled) {
+
                     enabled = false;
                     player.sendMessage(s + ChatColor.AQUA + "You have disabled the " + ChatColor.GOLD + "chat" + ChatColor.AQUA + ".");
                     Bukkit.broadcastMessage(s + ChatColor.RED + "The chat has been disabled.");
@@ -132,8 +138,8 @@ public class Staff implements CommandExecutor, Listener {
         }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if(player.getInventory().getItemInHand().isSimilar(is3)) {
-                if(!enabled2) {
+            if (player.getInventory().getItemInHand().isSimilar(is3)) {
+                if (!enabled2) {
                     enabled2 = true;
                     player.performCommand("speed 10");
                 } else {
@@ -142,14 +148,19 @@ public class Staff implements CommandExecutor, Listener {
                 }
             }
         }
-}
+    }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
-        if(!enabled) {
-            e.setCancelled(true);
-            player.sendMessage(s + ChatColor.RED + "Chat is currently disabled.");
+        if (!enabled) {
+            if (!player.hasPermission("chat.bypass")) {
+                e.setCancelled(true);
+                player.sendMessage(s + ChatColor.RED + "Chat is currently disabled.");
+            }
+        }
+        if(player.hasPermission("chat.bypass")) {
+            e.setCancelled(false);
         }
 
     }

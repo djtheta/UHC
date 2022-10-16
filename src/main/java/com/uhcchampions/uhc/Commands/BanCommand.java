@@ -11,7 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.util.Calendar;
 
-import static com.uhcchampions.uhc.Main.s;
+import static com.uhcchampions.uhc.Util.s;
+
 
 public class BanCommand implements CommandExecutor {
 

@@ -9,40 +9,18 @@ import org.bukkit.entity.Player;
 
 import static com.uhcchampions.uhc.Util.s;
 
-public class KickCommand implements CommandExecutor {
+public class privateCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
-            if(player.hasPermission("kick.use")) {
-                if(args.length == 1) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    target.kickPlayer(ChatColor.RED + "You have been kicked.");
-                    player.sendMessage(s + ChatColor.AQUA + "You have kicked " + ChatColor.GOLD + target.getName());
-
-
-                } else {
-                    player.sendMessage(ChatColor.RED + "Invalid usage. /kick [playername]");
-                }
-
-
-
-
-
-
+            if(player.hasPermission("private.use")) {
+                Bukkit.getServer().setWhitelist(true);
+                player.sendMessage(s + ChatColor.GOLD + "Server is now private.");
             } else {
                 player.sendMessage(ChatColor.RED + "No permission.");
             }
-
-
-
-
-
-
-
         }
-
-
 
 
         return false;

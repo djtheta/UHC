@@ -3,6 +3,7 @@ package com.uhcchampions.uhc.Commands;
 import com.uhcchampions.uhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class MessageCommand implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
 
-            if(args.length == 2) {
+            if(args.length >= 2) {
                 if(Bukkit.getPlayerExact(args[0]) != null) {
                     Player target = Bukkit.getPlayer(args[0]);
 
@@ -34,6 +35,7 @@ public class MessageCommand implements CommandExecutor {
 
                     player.sendMessage(ChatColor.GOLD + "(To " + target.getDisplayName() + ChatColor.GOLD + ") " + ChatColor.GRAY + builder);
                     target.sendMessage(ChatColor.GOLD + "(From " + player.getDisplayName() + ChatColor.GOLD + ") " + ChatColor.GRAY + builder);
+                    target.playSound(target.getLocation(), Sound.SUCCESSFUL_HIT, 10, 2);
 
                     main.getRecentMessages().put(player.getUniqueId(), target.getUniqueId());
                 } else {

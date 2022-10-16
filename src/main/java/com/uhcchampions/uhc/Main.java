@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -27,11 +26,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+
+import static com.uhcchampions.uhc.Util.s;
+import static com.uhcchampions.uhc.Util.z;
 
 public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
@@ -44,17 +45,16 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
    private HashMap<UUID, UUID> recentMessages;
 
-    public static String s = (ChatColor.AQUA + ChatColor.BOLD.toString() + "UHC " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " ");
-    private final String z = (ChatColor.GOLD + ChatColor.BOLD.toString() + "BORDER " + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " ");
 
     @Deprecated
     @Override
     public void onEnable() {
         other = new BowStuff(this);
+        getCommand("crate").setExecutor(new LootCrateCommand());
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
         Bukkit.dispatchCommand(console, "gamerule sendCommandFeedback false");
         console.sendMessage("Gamerule Disabled!");
-        //Bukkit.getPluginManager().registerEvents(new Gapples(), this);
+        Bukkit.getPluginManager().registerEvents(new Gapples(), this);
         getCommand("message").setExecutor(new MessageCommand(this));
         getCommand("reply").setExecutor(new ReplyCommand(this));
         Bukkit.getPluginManager().registerEvents(new Staff(), this);
@@ -63,7 +63,8 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         getCommand("w0w").setExecutor(new w0w());
         getCommand("gmsp").setExecutor(new GMSP());
         getCommand("healall").setExecutor(new HealAll());
-        getCommand("release").setExecutor(new WhitelistCommand());
+        getCommand("private").setExecutor(new privateCommand());
+        getCommand("public").setExecutor(new publicCommand());
         getCommand("staff").setExecutor(new Staff());
         getCommand("victory").setExecutor(new Victory());
         Bukkit.getPluginManager().registerEvents(other, this);
@@ -123,7 +124,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
                 //AUGUST RIGHT HERE BEFORE SPREADPLAYERS
 
-                for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 3; i++) {
+                for (int i = 0; i < Bukkit.getOnlinePlayers().size() / 2; i++) {
                     Bukkit.dispatchCommand(console, "scoreboard teams add " + i);
                     Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
                     Bukkit.dispatchCommand(console, "scoreboard teams join " + i + " @r[team=]");
@@ -341,13 +342,15 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
         if(player.getName().equals("Nans12_")) {
                 player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.LIGHT_PURPLE + "Streamer" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
+        } else if(player.getName().equals("rominer_11")) {
+            player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.LIGHT_PURPLE + "Streamer" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
         }
 
         if(!player.hasPlayedBefore()) {
             ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
             BookMeta meta = (BookMeta) book.getItemMeta();
             meta.setTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + "KingdomsHQ UHC " + ChatColor.AQUA + ChatColor.BOLD + "S2");
-            meta.setAuthor(ChatColor.RED + "Theta & Fin");
+            meta.setAuthor(ChatColor.RED + "Theta");
             meta.addPage(
                     ChatColor.GOLD + "Thank you for playing Season 2 of KingdomsHQ's UHC." +
                     "      \n\nWe hope you enjoy the new additions to the game, as well as the numerous bug fixes that we have taken time to repair." +
@@ -381,10 +384,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
             if (player.getName().equals("SebHobbit")) {
                 player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
-            } else if (player.getName().equals("FinlayAtom13")) {
-                player.setDisplayName(ChatColor.GRAY + "[" + ChatColor.RED + "Host" + ChatColor.GRAY + "]" + ChatColor.RESET + " " + ChatColor.WHITE + player.getName() + ChatColor.RESET);
             }
-
 
             e.setJoinMessage(ChatColor.DARK_GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + ")" + ChatColor.RESET + " " + player.getDisplayName());
 

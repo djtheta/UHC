@@ -10,7 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import static com.uhcchampions.uhc.Main.s;
+import static com.uhcchampions.uhc.Util.s;
+
 
 public class Victory implements CommandExecutor {
     @Deprecated

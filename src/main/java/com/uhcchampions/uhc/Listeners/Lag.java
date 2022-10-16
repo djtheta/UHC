@@ -1,4 +1,4 @@
-package com.uhcchampions.uhc;
+package com.uhcchampions.uhc.Listeners;
 //credit to LazyLemons
 public class Lag
         implements Runnable

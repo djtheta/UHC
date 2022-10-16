@@ -3,6 +3,7 @@ package com.uhcchampions.uhc.Commands;
 import com.uhcchampions.uhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,6 +37,7 @@ public class ReplyCommand implements CommandExecutor {
 
                             player.sendMessage(ChatColor.GOLD + "(To " + target.getDisplayName() + ChatColor.GOLD + ") " + ChatColor.GRAY + builder);
                             target.sendMessage(ChatColor.GOLD + "(From " + player.getDisplayName() + ChatColor.GOLD + ") " + ChatColor.GRAY + builder);
+                            target.playSound(target.getLocation(), Sound.SUCCESSFUL_HIT, 10, 2);
                         } else {
                             player.sendMessage(ChatColor.RED + "Player has gone offline.");
                         }

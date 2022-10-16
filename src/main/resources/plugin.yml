@@ -10,17 +10,24 @@ commands:
   pvpe:
   heal:
   staff:
+    aliases: [admin]
   victory:
+    aliases: [gg]
   gmc:
+    aliases: [gm1]
   fly:
   gms:
-  release:
+    aliases: [gm2, gm0]
+  public:
+  private:
   healall:
   gmsp:
+    aliases: [gm3]
   w0w:
   speed:
   ban:
   kick:
+  crate:
   message:
     aliases: [msg]
   reply:

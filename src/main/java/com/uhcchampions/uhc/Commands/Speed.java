@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.uhcchampions.uhc.Main.s;
+import static com.uhcchampions.uhc.Util.s;
 
 public class Speed implements CommandExecutor {
 
